@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form id="translationForm">
+                    <div class="form-group">
+                        <label for="textInput">Enter Text:</label>
+                        <textarea class="form-control" id="textInput" rows="5" cols="50"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="translateText()">Translate</button>
+                </form>
+                <br>
+                <div id="translationResult" style="display: none;">
+                    <div class="form-group">
+                        <label for="translatedText">Translated Text:</label>
+                        <textarea class="form-control" id="translatedText" rows="5" cols="50" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function translateText() {
+        var text = document.getElementById('textInput').value;
+        if (text == '') {
+            alert('Please enter text to translate');
+            return;
+        }
+        
+        fetch('/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: text })
+        })
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(response) {
+            console.log(response);
+            document.getElementById('translatedText').value = response;
+            document.getElementById('translationResult').style.display = 'block';
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+    }
+</script>
+{% endblock %}
