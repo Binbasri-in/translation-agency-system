@@ -9,9 +9,9 @@ app.secret_key = 'your secret key'
 
 # prompt request: 
 def make_translation_request(prompt):
-    url = 'https://api.cloudflare.com/client/v4/accounts/4da66dac8f0c0483794586300c5ccc66/ai/run/@cf/meta/llama-2-7b-chat-int8'
+    url = 'https://api.cloudflare.com/client/v4/accounts/{acount_id}/ai/run/@cf/meta/llama-2-7b-chat-int8'
     headers = {
-        'Authorization': 'Bearer JQZD7dYHmbLp5kTVt4NglPvmh-C4mrwyLu7Q1Kp-',
+        'Authorization': 'Bearer {API Token}',
         'Content-Type': 'application/json'
     }
     data = {
