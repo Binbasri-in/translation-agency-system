@@ -1,13 +1,14 @@
 from django.shortcuts import render, HttpResponse
 from .models import Document
 from .forms import DocumentForm
-from PyPDF2 import PdfReader
-import pytesseract
+import io
+import fitz  # PyMuPDF
 from PIL import Image
+import pytesseract
 import arabic_reshaper
 from bidi.algorithm import get_display
 from docx import Document as DocxDocument
-import io
+import arabic_reshaper
 
 
 def upload_file(request):
