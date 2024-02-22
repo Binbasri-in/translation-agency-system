@@ -8,3 +8,4 @@ docx
 python-bidi
 arabic_reshaper
 openpyxl
+pandas
