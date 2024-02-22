@@ -7,3 +7,4 @@ python-docx
 docx
 python-bidi
 arabic_reshaper
+openpyxl
