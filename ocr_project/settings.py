@@ -123,6 +123,3 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-CLOUDFLARE_ACCOUNT_ID = "4da66dac8f0c0483794586300c5ccc66"
-CLOUDFLARE_API_TOKEN = "P_6q1VkuM0uFB3cqdGnSAvEUdQQJqirr0N9DTFNM"
