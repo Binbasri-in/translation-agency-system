@@ -15,3 +15,21 @@ class DocumentForm(forms.Form):
         label='Output File Type',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+
+
+class TranslationForm(forms.Form):
+    text = forms.CharField(
+        label='Enter text to translate',
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5})
+    )
+    source_lang = forms.ChoiceField(
+        choices=[('arabic', 'Arabic'), ('english', 'English'), ('french', 'French'), ('spanish', 'Spanish')],
+        label='Source Language',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    target_lang = forms.ChoiceField(
+        choices=[('arabic', 'Arabic'), ('english', 'English'), ('french', 'French'), ('spanish', 'Spanish')],
+        label='Target Language',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    

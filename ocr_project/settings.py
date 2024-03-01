@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = "django-insecure-*z!$qcs+wmwwn9t#qi9on!(f^jg^rmytf8^65*-u4)yd%gi_o-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['online-ocr-tool-20fe2ffc5950.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -122,3 +123,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CLOUDFLARE_ACCOUNT_ID = "4da66dac8f0c0483794586300c5ccc66"
+CLOUDFLARE_API_TOKEN = "P_6q1VkuM0uFB3cqdGnSAvEUdQQJqirr0N9DTFNM"

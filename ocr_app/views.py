@@ -1,15 +1,10 @@
 from django.shortcuts import render, HttpResponse
-from .forms import DocumentForm
-import fitz  # PyMuPDF
-from docx import Document as DocxDocument
-import arabic_reshaper
-from bidi.algorithm import get_display
-import pytesseract
-from PIL import Image
-import pandas as pd
-import re
+from .forms import DocumentForm, TranslationForm
+from .utils import perform_ocr_image_to_text, perform_ocr_image_to_docx, perform_ocr_image_to_xlsx, perform_ocr_pdf_to_docx, perform_ocr_pdf_to_text, perform_ocr_pdf_to_xlsx
+from .utils import translate_text_cloudflare
 
 
+# Create your views here.
 def upload_file(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -68,91 +63,20 @@ def upload_file(request):
     return render(request, 'ocr_app/upload.html', {'form': form, 'error': error_message})
 
 
-def perform_ocr_image_to_text(file):
-    print("Performing OCR on the image...")
-    image = Image.open(file)
-    text = pytesseract.image_to_string(image)
-    output_file = "output.txt"
-    with open(output_file, 'w') as f:
-        f.write(text)
-    return output_file
-
-
-def perform_ocr_image_to_docx(file):
-    print("Performing OCR on the image...")
-    image = Image.open(file)
-    text = pytesseract.image_to_string(image)
-    # Filter out control characters and other non-XML-compatible characters
-    filtered_text = re.sub(r'[^\x20-\x7E\x0A\x0D]', '', text)
-    docx = DocxDocument()
-    docx.add_paragraph(filtered_text)
-    output_file = "output.docx"
-    docx.save(output_file)
-    return output_file
-
-
-def perform_ocr_image_to_xlsx(file):
-    print("Performing OCR on the image...")
-    image = Image.open(file)
-    text = pytesseract.image_to_string(image)
-    # Filter out illegal characters for Excel
-    filtered_text = re.sub(r'[^\x20-\x7E\x0A\x0D]', '', text)
-    df = pd.DataFrame([filtered_text.split('\n')])
-    output_file = "output.xlsx"
-    df.to_excel(output_file, index=False, header=False)
-    return output_file
-
-
-
-def perform_ocr_pdf_to_docx(file):
-    print("Performing OCR on each page in the PDF file...")
-    pdf_document = fitz.open(stream=file.read(), filetype="pdf")
-    docx = DocxDocument()  # Create a new Word document
-    for page_number in range(len(pdf_document)):
-        page = pdf_document.load_page(page_number)
-        pix = page.get_pixmap()
-        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-        text = pytesseract.image_to_string(img)
-        # Reshape and reorder Arabic text
-        reshaped_text = arabic_reshaper.reshape(text)
-        for line in reshaped_text.split('\n'):
-            # Filter out control characters and other non-XML-compatible characters
-            filtered_line = re.sub(r'[^\x20-\x7E\x0A\x0D]', '', line)
-            docx.add_paragraph(filtered_line)
-    output_file = "output.docx"
-    docx.save(output_file)
-    return output_file
-
-
-
-def perform_ocr_pdf_to_text(file):
-    print("Performing OCR on each page in the PDF file...")
-    pdf_document = fitz.open(stream=file.read(), filetype="pdf")
-    text = ""
-    for page_number in range(len(pdf_document)):
-        page = pdf_document.load_page(page_number)
-        pix = page.get_pixmap()
-        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-        text += pytesseract.image_to_string(img)
-    output_file = "output.txt"
-    with open(output_file, 'w') as f:
-        f.write(text)
-    return output_file
-
-
-def perform_ocr_pdf_to_xlsx(file):
-    print("Performing OCR on each page in the PDF file...")
-    pdf_document = fitz.open(stream=file.read(), filetype="pdf")
-    data = []
-    for page_number in range(len(pdf_document)):
-        page = pdf_document.load_page(page_number)
-        pix = page.get_pixmap()
-        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-        text = pytesseract.image_to_string(img)
-        # Filter out illegal characters for Excel
-        filtered_text = re.sub(r'[^\x20-\x7E\x0A\x0D]', '', text)
-        data.append(filtered_text.split('\n'))
-    df = pd.DataFrame(data)
-    output_file = "output.xlsx"
-    df.to_excel(output_file, index=False, header=False)
-    return output_file
+def translate_text(request):
+    if request.method == 'POST':
+        form = TranslationForm(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            source_lang = form.cleaned_data['source_lang']
+            target_lang = form.cleaned_data['target_lang']
+            print(f"Translating text from {source_lang} to {target_lang}")
+            translated_text = translate_text_cloudflare(text, source_lang, target_lang)
+            print(f"Translated text: {translated_text}")
+        else:
+            translated_text = ""
+    else:
+        translated_text = ""
+        form = TranslationForm()
+        
+    return render(request, 'ocr_app/translate.html', {'form': form, 'translated_text': translated_text})

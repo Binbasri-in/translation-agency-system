@@ -1,60 +1,30 @@
-VISAy \ense fs
+Step 7: Functional View Specification
 
-Seen [SSN
-
- 
+Local
 
  
 
- 
+1. loT device maps to the Device FG (sensors,
+actuators devices, computing devices}
+and the Management FG (device management}
 
- 
+4, Web Serves mapto
+Services FG (web services)
 
- 
+2, Resources map to the Device FG {on-device
+resource) and Communication FG
+(communication APIs and protocols}
 
- 
+5. Database maps to the Management FG
+(database management] and Security FG
+{database security}
 
- 
+3. Controller service maps to the
+Services FG (natwe service}. Web Services
+map to Services FG (web services}
 
- 
-
- 
-
- 
-
-) Visa, 6114672043 sl ay
-Date of sue 2202/2026
-
-) Va uit 6 15/11/1465 «nal aay pg 90 Atuatle
-
-90 Days , untit 23/05/2026
-Duration of Stay» 29/11/1445 nl aay pgs 90 als ba
-
-) 90 Days , until 06/06/2026
-‘Passport No. Z 09460189 sual jlge aby
-WV VV
-Place of issue Saudi Digital Embassy ~ aap aysgouill 8yLaull Sui jase
-Name oldu! gata anne gle sl
-iin Date 16/05/1969 all ut
-Naoatiy i — Yeman-oadh Wa ai
-‘ypeotvin Umrah =6jac) 5 ses
-aram Name al al
-nvah Operator oualaall load yalnall elulle 244 eal ise
-External Agent Alyy sya yoLuall gail dal
-Borer No pallets
-
-vas Wa AOU LAE tll aoy
-
-erase
-
-‘Application No. (1) CUO EE Sam
-
-£760676476
-
-WVU
-
- 
-
-1 <YEMALSAKKAFCCALI<HOHAMMED<HASANC<<<<<<<<<<
-(094601897 ¥EM1605196911123<<<ccccccKcKccccc<Ot
+6. Application maps to the Application FG (web
+application, application and database servers},
+Management FG (app management} and
+Security FG (app security)
 
